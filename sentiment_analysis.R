@@ -93,51 +93,51 @@ agg_q40_afinn_sent <- subset(q40_afinn_sentiment, select = -word)
 agg_q42_afinn_sent <- subset(q42_afinn_sentiment, select = -word)
 
 agg_survey_afinn_sent <- agg_survey_afinn_sent %>%
-  group_by(Subject) %>%
-  summarise(mean = mean(value))
+                              group_by(Subject) %>%
+                                  summarise(mean = mean(value))
 agg_q18_afinn_sent <- agg_q18_afinn_sent %>%
-  group_by(Subject) %>%
-  summarise(mean = mean(value))
+                          group_by(Subject) %>%
+                              summarise(mean = mean(value))
 agg_q19_afinn_sent <- agg_q19_afinn_sent %>%
-  group_by(Subject) %>%
-  summarise(mean = mean(value))
+                          group_by(Subject) %>%
+                              summarise(mean = mean(value))
 agg_q33_afinn_sent <- agg_q33_afinn_sent %>%
-  group_by(Subject) %>%
-  summarise(mean = mean(value))
+                          group_by(Subject) %>%
+                              summarise(mean = mean(value))
 agg_q37_afinn_sent <- agg_q37_afinn_sent %>%
-  group_by(Subject) %>%
-  summarise(mean = mean(value))
+                          group_by(Subject) %>%
+                              summarise(mean = mean(value))
 agg_q38_afinn_sent <- agg_q38_afinn_sent %>%
-  group_by(Subject) %>%
-  summarise(mean = mean(value))
+                          group_by(Subject) %>%
+                              summarise(mean = mean(value))
 agg_q39_afinn_sent <- agg_q39_afinn_sent %>%
-  group_by(Subject) %>%
-  summarise(mean = mean(value))
+                          group_by(Subject) %>%
+                              summarise(mean = mean(value))
 agg_q40_afinn_sent <- agg_q40_afinn_sent %>%
-  group_by(Subject) %>%
-  summarise(mean = mean(value))
+                          group_by(Subject) %>%
+                              summarise(mean = mean(value))
 agg_q42_afinn_sent <- agg_q42_afinn_sent %>%
-  group_by(Subject) %>%
-  summarise(mean = mean(value))
+                          group_by(Subject) %>%
+                              summarise(mean = mean(value))
 
 agg_survey_afinn_sent <- agg_survey_afinn_sent %>%
-  mutate(pos = mean >= 0)
+                            mutate(pos = mean >= 0)
 agg_q18_afinn_sent <- agg_q18_afinn_sent %>%
-  mutate(pos = mean >= 0)
+                          mutate(pos = mean >= 0)
 agg_q19_afinn_sent <- agg_q19_afinn_sent %>%
-  mutate(pos = mean >= 0)
+                          mutate(pos = mean >= 0)
 agg_q33_afinn_sent <- agg_q33_afinn_sent %>%
-  mutate(pos = mean >= 0)
+                          mutate(pos = mean >= 0)
 agg_q37_afinn_sent <- agg_q37_afinn_sent %>%
-  mutate(pos = mean >= 0)
+                          mutate(pos = mean >= 0)
 agg_q38_afinn_sent <- agg_q38_afinn_sent %>%
-  mutate(pos = mean >= 0)
+                          mutate(pos = mean >= 0)
 agg_q39_afinn_sent <- agg_q39_afinn_sent %>%
-  mutate(pos = mean >= 0)
+                          mutate(pos = mean >= 0)
 agg_q40_afinn_sent <- agg_q40_afinn_sent %>%
-  mutate(pos = mean >= 0)
+                          mutate(pos = mean >= 0)
 agg_q42_afinn_sent <- agg_q42_afinn_sent %>%
-  mutate(pos = mean >= 0)
+                          mutate(pos = mean >= 0)
 
 
 ## create nrc emolex data
@@ -165,20 +165,20 @@ ggplot(agg_survey_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = p
 
 ## visualize most commonly used pos and neg words
 survey_word_counts <- survey_bing_sentiment %>%
-  count(word, sentiment, sort = TRUE) %>%
-  ungroup()
+                          count(word, sentiment, sort = TRUE) %>%
+                              ungroup()
 survey_word_counts %>%
   group_by(sentiment) %>%
-  slice_max(n, n = 10) %>%
-  ungroup() %>%
-  mutate(word = reorder(word, n)) %>%
-  ggplot(aes(n, word, fill = sentiment)) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~sentiment, scales = "free_y") +
-  scale_x_continuous("Occurrences", limits = c(0, 60), breaks = c(0, 10, 20, 30, 40, 50, 60)) +
-  labs(title = "Most Commonly Used Positive and Negative Words",
-       y = "Word") +
-  theme(panel.grid.major.y = element_blank())
+      slice_max(n, n = 10) %>%
+          ungroup() %>%
+              mutate(word = reorder(word, n)) %>%
+                  ggplot(aes(n, word, fill = sentiment)) +
+                  geom_col(show.legend = FALSE) +
+                  facet_wrap(~sentiment, scales = "free_y") +
+                  scale_x_continuous("Occurrences", limits = c(0, 60), breaks = c(0, 10, 20, 30, 40, 50, 60)) +
+                  labs(title = "Most Commonly Used Positive and Negative Words",
+                       y = "Word") +
+                  theme(panel.grid.major.y = element_blank())
 
 
 ## visualize nrc emotion categorization
@@ -206,21 +206,21 @@ ggplot(agg_q38_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)
 
 ## visualize most common pos and neg words
 q38_word_counts <- q38_bing_sentiment %>%
-  count(word, sentiment, sort = TRUE) %>%
-  ungroup()
+                      count(word, sentiment, sort = TRUE) %>%
+                          ungroup()
 q38_word_counts %>%
   group_by(sentiment) %>%
-  slice_max(n, n = 10) %>%
-  ungroup() %>%
-  mutate(word = reorder(word, n)) %>%
-  ggplot(aes(n, word, fill = sentiment)) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~sentiment, scales = "free_y") +
-  scale_x_continuous("Occurrences", limits = c(0, 10), breaks = c(0, 2, 4, 6, 8, 10)) +
-  labs(title = "Most Commonly Used Positive and Negative Words",
-       subtitle = "Question 38: question",
-       y = "Word") +
-  theme(panel.grid.major.y = element_blank())
+      slice_max(n, n = 10) %>%
+          ungroup() %>%
+              mutate(word = reorder(word, n)) %>%
+                  ggplot(aes(n, word, fill = sentiment)) +
+                  geom_col(show.legend = FALSE) +
+                  facet_wrap(~sentiment, scales = "free_y") +
+                  scale_x_continuous("Occurrences", limits = c(0, 10), breaks = c(0, 2, 4, 6, 8, 10)) +
+                  labs(title = "Most Commonly Used Positive and Negative Words",
+                       subtitle = "Question 38: question",
+                       y = "Word") +
+                  theme(panel.grid.major.y = element_blank())
 
 
 ## visualize nrc emotion categorization
