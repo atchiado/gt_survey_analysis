@@ -16,38 +16,42 @@ afinn_sentiment <- get_sentiments("afinn")
 bing_sentiment <- get_sentiments("bing")
 
 q1_df <- survey_df[survey_df$Question == '1',]
-q19_df <- survey_df[survey_df$Question == '19',]
-q33_df <- survey_df[survey_df$Question == '33',]
-q37_df <- survey_df[survey_df$Question == '37',]
-q38_df <- survey_df[survey_df$Question == '38',]
-q39_df <- survey_df[survey_df$Question == '39',]
-q40_df <- survey_df[survey_df$Question == '40',]
-q42_df <- survey_df[survey_df$Question == '42',]
+q2_df <- survey_df[survey_df$Question == '2',]
+q3_df <- survey_df[survey_df$Question == '3',]
+q4_df <- survey_df[survey_df$Question == '4',]
+q5_df <- survey_df[survey_df$Question == '5',]
+q6_df <- survey_df[survey_df$Question == '6',]
+q7_df <- survey_df[survey_df$Question == '7',]
 
 
 ## create character vector of answers only
-survey_answers_char <- subset(survey_df, select = Answer)
-q1_answers_char <- subset(q1_df, select = Answer)
-q19_answers_char <- subset(q19_df, select = Answer)
-q33_answers_char <- subset(q33_df, select = Answer)
-q37_answers_char <- subset(q37_df, select = Answer)
-q38_answers_char <- subset(q38_df, select = Answer)
-q39_answers_char <- subset(q39_df, select = Answer)
-q40_answers_char <- subset(q40_df, select = Answer)
-q42_answers_char <- subset(q42_df, select = Answer)
+survey_char <- survey_df %>%
+                  subset(select = Answer) %>%
+                    as.character()
+q1_char <- q1_df %>%
+              subset(select = Answer) %>%
+                as.character()
+q2_char <- q2_df %>%
+              subset(select = Answer) %>%
+                as.character()
+q3_char <- q3_df %>%
+              subset(select = Answer) %>%
+                as.character()
+q4_char <- q4_df %>%
+              subset(select = Answer) %>%
+                as.character()
+q5_char <- q5_df %>%
+              subset(select = Answer) %>%
+                as.character()
+q6_char <- q6_df %>%
+              subset(select = Answer) %>%
+                as.character()
+q7_char <- q7_df %>%
+              subset(select = Answer) %>%
+                as.character()
 
-survey_answers_char <- as.character(survey_answers_char)
-q1_answers_char <- as.character(q1_answers_char)
-q19_answers_char <- as.character(q19_answers_char)
-q33_answers_char <- as.character(q33_answers_char)
-q37_answers_char <- as.character(q37_answers_char)
-q38_answers_char <- as.character(q38_answers_char)
-q39_answers_char <- as.character(q39_answers_char)
-q40_answers_char <- as.character(q40_answers_char)
-q42_answers_char <- as.character(q42_answers_char)
 
-
-## convert to tidy text data
+## convert data frames to tidy text data
 survey_df_tidy <- unnest_tokens(survey_df, word, Answer)
 q1_df_tidy <- unnest_tokens(q1_df, word, Answer)
 q19_df_tidy <- unnest_tokens(q19_df, word, Answer)
@@ -59,7 +63,7 @@ q40_df_tidy <- unnest_tokens(q40_df, word, Answer)
 q42_df_tidy <- unnest_tokens(q42_df, word, Answer)
 
 
-## inner join with sentiment data
+## inner join with sentiment data and aggregate by subject
 survey_afinn_sentiment <- inner_join(survey_df_tidy, afinn_sentiment)
 q1_afinn_sentiment <- inner_join(q1_df_tidy, afinn_sentiment)
 q19_afinn_sentiment <- inner_join(q19_df_tidy, afinn_sentiment)
@@ -81,7 +85,6 @@ q40_bing_sentiment <- inner_join(q40_df_tidy, bing_sentiment)
 q42_bing_sentiment <- inner_join(q42_df_tidy, bing_sentiment)
 
 
-## aggregate by survey subject
 agg_survey_afinn_sent <- subset(survey_afinn_sentiment, select = -word)
 agg_q1_afinn_sent <- subset(q1_afinn_sentiment, select = -word)
 agg_q19_afinn_sent <- subset(q19_afinn_sentiment, select = -word)
