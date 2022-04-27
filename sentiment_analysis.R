@@ -114,13 +114,12 @@ agg_q7_afinn_sent <- q7_df_tidy %>%
 
 survey_bing_sent <- inner_join(survey_df_tidy, bing_sentiment)
 q1_bing_sent <- inner_join(q1_df_tidy, bing_sentiment)
-q19_bing_sent <- inner_join(q19_df_tidy, bing_sentiment)
-q33_bing_sent <- inner_join(q33_df_tidy, bing_sentiment)
-q37_bing_sent <- inner_join(q37_df_tidy, bing_sentiment)
-q38_bing_sent <- inner_join(q38_df_tidy, bing_sentiment)
-q39_bing_sent <- inner_join(q39_df_tidy, bing_sentiment)
-q40_bing_sent <- inner_join(q40_df_tidy, bing_sentiment)
-q42_bing_sent <- inner_join(q42_df_tidy, bing_sentiment)
+q2_bing_sent <- inner_join(q2_df_tidy, bing_sentiment)
+q3_bing_sent <- inner_join(q3_df_tidy, bing_sentiment)
+q4_bing_sent <- inner_join(q4_df_tidy, bing_sentiment)
+q5_bing_sent <- inner_join(q5_df_tidy, bing_sentiment)
+q6_bing_sent <- inner_join(q6_df_tidy, bing_sentiment)
+q7_bing_sent <- inner_join(q7_df_tidy, bing_sentiment)
 
 
 ## create nrc emolex data
@@ -249,3 +248,24 @@ ggplot(q1_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
        x = "Emotions",
        y = "Prominence") +
   theme(panel.grid.major.x = element_blank())
+
+
+
+
+#### QUESTION 2 VIZ ####
+ggplot(agg_q2_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_continuous("Occurrences", limits = c(-3, 3), breaks = c(-3, -2, -1, 0, 1, 2, 3)) +
+  labs(title = "Sentiment of Survey Responses",
+       subtitle = "Question 1",
+       x = "Responses",
+       y = "Sentiment") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid.major.y = element_blank()) +
+  coord_flip()
+
+
+
+
+
