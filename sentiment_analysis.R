@@ -258,7 +258,7 @@ ggplot(agg_q2_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos))
   geom_col(show.legend = FALSE) +
   scale_y_continuous("Occurrences", limits = c(-3, 3), breaks = c(-3, -2, -1, 0, 1, 2, 3)) +
   labs(title = "Sentiment of Survey Responses",
-       subtitle = "Question 1",
+       subtitle = "Question 2",
        x = "Responses",
        y = "Sentiment") +
   theme(axis.text.y = element_blank(),
@@ -280,8 +280,118 @@ q2_bing_sent %>%
               facet_wrap(~sentiment, scales = "free_y") +
               scale_x_continuous("Occurrences", limits = c(0, 3), breaks = c(0, 1, 2, 3)) +
               labs(title = "Most Commonly Used Positive and Negative Words",
-                   subtitle = "Question 1",
+                   subtitle = "Question 2",
                    y = "Word") +
               theme(panel.grid.major.y = element_blank())
+
+
+## visualize nrc emotion categorization
+ggplot(q2_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("anger" = "#F8766D", "anticipation" = "#FFCC66",
+                               "disgust" = "#F8766D", "fear" = "#F8766D", "joy" = "#00BFC4",
+                               "sadness" = "#F8766D", "surprise" = "#FFCC66", "trust" = "#00BFC4")) +
+  labs(title = "Emotion Classification of Survey Responses",
+       subtitle = "Question 2",
+       x = "Emotions",
+       y = "Prominence") +
+  theme(panel.grid.major.x = element_blank())
+
+
+
+
+#### QUESTION 3 VIZ ####
+## visualize sentiment across subject
+ggplot(agg_q3_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_continuous("Occurrences", limits = c(-3, 3), breaks = c(-3, -2, -1, 0, 1, 2, 3)) +
+  labs(title = "Sentiment of Survey Responses",
+       subtitle = "Question 3",
+       x = "Responses",
+       y = "Sentiment") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid.major.y = element_blank()) +
+  coord_flip()
+
+
+## visualize most common pos and neg words
+q3_bing_sent %>%
+  count(word, sentiment, sort = TRUE) %>%
+    ungroup() %>%
+      group_by(sentiment) %>%
+        slice_max(n, n = 10) %>%
+          ungroup() %>%
+            mutate(word = reorder(word, n)) %>%
+              ggplot(aes(n, word, fill = sentiment)) +
+              geom_col(show.legend = FALSE) +
+              facet_wrap(~sentiment, scales = "free_y") +
+              scale_x_continuous("Occurrences", limits = c(0, 2), breaks = c(0, 1, 2)) +
+              labs(title = "Most Commonly Used Positive and Negative Words",
+                   subtitle = "Question 3",
+                   y = "Word") +
+              theme(panel.grid.major.y = element_blank())
+
+
+## visualize nrc emotion categorization
+ggplot(q3_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("anger" = "#F8766D", "anticipation" = "#FFCC66",
+                               "disgust" = "#F8766D", "fear" = "#F8766D", "joy" = "#00BFC4",
+                               "sadness" = "#F8766D", "surprise" = "#FFCC66", "trust" = "#00BFC4")) +
+  labs(title = "Emotion Classification of Survey Responses",
+       subtitle = "Question 3",
+       x = "Emotions",
+       y = "Prominence") +
+  theme(panel.grid.major.x = element_blank())
+
+
+
+
+#### QUESTION 4 VIZ ####
+## visualize sentiment across subject
+ggplot(agg_q4_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_continuous("Occurrences", limits = c(-3, 3), breaks = c(-3, -2, -1, 0, 1, 2, 3)) +
+  labs(title = "Sentiment of Survey Responses",
+       subtitle = "Question 4",
+       x = "Responses",
+       y = "Sentiment") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid.major.y = element_blank()) +
+  coord_flip()
+
+
+## visualize most common pos and neg words
+q4_bing_sent %>%
+  count(word, sentiment, sort = TRUE) %>%
+    ungroup() %>%
+      group_by(sentiment) %>%
+        slice_max(n, n = 10) %>%
+          ungroup() %>%
+            mutate(word = reorder(word, n)) %>%
+              ggplot(aes(n, word, fill = sentiment)) +
+              geom_col(show.legend = FALSE) +
+              facet_wrap(~sentiment, scales = "free_y") +
+              scale_x_continuous("Occurrences", limits = c(0, 3), breaks = c(0, 1, 2, 3)) +
+              labs(title = "Most Commonly Used Positive and Negative Words",
+                   subtitle = "Question 4",
+                   y = "Word") +
+              theme(panel.grid.major.y = element_blank())
+
+
+## visualize nrc emotion categorization
+ggplot(q4_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("anger" = "#F8766D", "anticipation" = "#FFCC66",
+                               "disgust" = "#F8766D", "fear" = "#F8766D", "joy" = "#00BFC4",
+                               "sadness" = "#F8766D", "surprise" = "#FFCC66", "trust" = "#00BFC4")) +
+  labs(title = "Emotion Classification of Survey Responses",
+       subtitle = "Question 4",
+       x = "Emotions",
+       y = "Prominence") +
+  theme(panel.grid.major.x = element_blank())
+
 
 
