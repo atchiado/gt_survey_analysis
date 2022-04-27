@@ -220,7 +220,7 @@ ggplot(agg_q1_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos))
 
 
 ## visualize most common pos and neg words
-q1_bing_sentiment %>%
+q1_bing_sent %>%
   count(word, sentiment, sort = TRUE) %>%
     ungroup() %>%
       group_by(sentiment) %>%
@@ -253,6 +253,7 @@ ggplot(q1_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
 
 
 #### QUESTION 2 VIZ ####
+## visualize sentiment across subject
 ggplot(agg_q2_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)) +
   geom_col(show.legend = FALSE) +
   scale_y_continuous("Occurrences", limits = c(-3, 3), breaks = c(-3, -2, -1, 0, 1, 2, 3)) +
@@ -266,6 +267,21 @@ ggplot(agg_q2_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos))
   coord_flip()
 
 
-
+## visualize most common pos and neg words
+q2_bing_sent %>%
+  count(word, sentiment, sort = TRUE) %>%
+    ungroup() %>%
+      group_by(sentiment) %>%
+        slice_max(n, n = 10) %>%
+          ungroup() %>%
+            mutate(word = reorder(word, n)) %>%
+              ggplot(aes(n, word, fill = sentiment)) +
+              geom_col(show.legend = FALSE) +
+              facet_wrap(~sentiment, scales = "free_y") +
+              scale_x_continuous("Occurrences", limits = c(0, 3), breaks = c(0, 1, 2, 3)) +
+              labs(title = "Most Commonly Used Positive and Negative Words",
+                   subtitle = "Question 1",
+                   y = "Word") +
+              theme(panel.grid.major.y = element_blank())
 
 
