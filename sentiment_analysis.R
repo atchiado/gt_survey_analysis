@@ -206,8 +206,9 @@ ggplot(survey_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
 ## visualize sentiment across subject
 ggplot(agg_q1_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)) +
   geom_col(show.legend = FALSE) +
+  scale_y_continuous("Occurrences", limits = c(-3, 3), breaks = c(-3, -2, -1, 0, 1, 2, 3)) +
   labs(title = "Sentiment of Survey Responses",
-       subtitle = "Question 38: question",
+       subtitle = "Question 1",
        x = "Responses",
        y = "Sentiment") +
   theme(axis.text.y = element_blank(),
@@ -227,9 +228,9 @@ q1_bing_sentiment %>%
               ggplot(aes(n, word, fill = sentiment)) +
               geom_col(show.legend = FALSE) +
               facet_wrap(~sentiment, scales = "free_y") +
-              scale_x_continuous("Occurrences", limits = c(0, 10), breaks = c(0, 2, 4, 6, 8, 10)) +
+              scale_x_continuous("Occurrences", limits = c(0, 3), breaks = c(0, 1, 2, 3)) +
               labs(title = "Most Commonly Used Positive and Negative Words",
-                   subtitle = "Question 38: question",
+                   subtitle = "Question 1",
                    y = "Word") +
               theme(panel.grid.major.y = element_blank())
 
@@ -238,7 +239,7 @@ q1_bing_sentiment %>%
 ggplot(q1_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
   geom_col(show.legend = FALSE) +
   labs(title = "Emotion Classification of Survey Responses",
-       subtitle = "Question 38: question",
+       subtitle = "Question 1",
        x = "Emotions",
        y = "Prominence") +
   theme(panel.grid.major.x = element_blank())
