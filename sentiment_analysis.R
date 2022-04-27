@@ -238,6 +238,9 @@ q1_bing_sentiment %>%
 ## visualize nrc emotion categorization
 ggplot(q1_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
   geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("anger" = "#F8766D", "anticipation" = "#FFCC66",
+                               "disgust" = "#F8766D", "fear" = "#F8766D", "joy" = "#00BFC4",
+                               "sadness" = "#F8766D", "surprise" = "#FFCC66", "trust" = "#00BFC4")) +
   labs(title = "Emotion Classification of Survey Responses",
        subtitle = "Question 1",
        x = "Emotions",
