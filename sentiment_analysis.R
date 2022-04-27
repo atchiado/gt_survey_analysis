@@ -164,6 +164,7 @@ q7_nrc_df <- q7_char %>%
 ## visualize sentiment by subject
 ggplot(agg_survey_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)) +
   geom_col(show.legend = FALSE) +
+  scale_y_continuous("Occurrences", limits = c(-3, 3), breaks = c(-3, -2, -1, 0, 1, 2, 3)) +
   labs(title = "Overall Sentiment of Survey Responses",
        x = "Subject",
        y = "Sentiment") +
@@ -174,26 +175,28 @@ ggplot(agg_survey_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = p
 
 
 ## visualize most commonly used pos and neg words
-survey_word_counts <- survey_bing_sent %>%
-                        count(word, sentiment, sort = TRUE) %>%
-                          ungroup()
-survey_word_counts %>%
-  group_by(sentiment) %>%
-    slice_max(n, n = 10) %>%
-      ungroup() %>%
-        mutate(word = reorder(word, n)) %>%
-          ggplot(aes(n, word, fill = sentiment)) +
-          geom_col(show.legend = FALSE) +
-          facet_wrap(~sentiment, scales = "free_y") +
-          scale_x_continuous("Occurrences", limits = c(0, 60), breaks = c(0, 10, 20, 30, 40, 50, 60)) +
-          labs(title = "Most Commonly Used Positive and Negative Words",
-               y = "Word") +
-          theme(panel.grid.major.y = element_blank())
+survey_bing_sent %>%
+  count(word, sentiment, sort = TRUE) %>%
+    ungroup() %>%
+      group_by(sentiment) %>%
+        slice_max(n, n = 10) %>%
+          ungroup() %>%
+            mutate(word = reorder(word, n)) %>%
+              ggplot(aes(n, word, fill = sentiment)) +
+              geom_col(show.legend = FALSE) +
+              facet_wrap(~sentiment, scales = "free_y") +
+              scale_x_continuous("Occurrences", limits = c(0, 15), breaks = c(0, 5, 10, 15)) +
+              labs(title = "Most Commonly Used Positive and Negative Words",
+                   y = "Word") +
+              theme(panel.grid.major.y = element_blank())
 
 
 ## visualize nrc emotion categorization
 ggplot(survey_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
   geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("anger" = "#F8766D", "anticipation" = "#FFCC66",
+                               "disgust" = "#F8766D", "fear" = "#F8766D", "joy" = "#00BFC4",
+                               "sadness" = "#F8766D", "surprise" = "#FFCC66", "trust" = "#00BFC4")) +
   labs(title = "Emotion Classification of Survey Responses",
        x = "Emotions",
        y = "Prominence") +
