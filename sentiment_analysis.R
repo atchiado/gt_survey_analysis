@@ -54,103 +54,110 @@ q7_char <- q7_df %>%
 ## convert data frames to tidy text data
 survey_df_tidy <- unnest_tokens(survey_df, word, Answer)
 q1_df_tidy <- unnest_tokens(q1_df, word, Answer)
-q19_df_tidy <- unnest_tokens(q19_df, word, Answer)
-q33_df_tidy <- unnest_tokens(q33_df, word, Answer)
-q37_df_tidy <- unnest_tokens(q37_df, word, Answer)
-q38_df_tidy <- unnest_tokens(q38_df, word, Answer)
-q39_df_tidy <- unnest_tokens(q39_df, word, Answer)
-q40_df_tidy <- unnest_tokens(q40_df, word, Answer)
-q42_df_tidy <- unnest_tokens(q42_df, word, Answer)
+q2_df_tidy <- unnest_tokens(q2_df, word, Answer)
+q3_df_tidy <- unnest_tokens(q3_df, word, Answer)
+q4_df_tidy <- unnest_tokens(q4_df, word, Answer)
+q5_df_tidy <- unnest_tokens(q5_df, word, Answer)
+q6_df_tidy <- unnest_tokens(q6_df, word, Answer)
+q7_df_tidy <- unnest_tokens(q7_df, word, Answer)
 
 
 ## inner join with sentiment data and aggregate by subject
-survey_afinn_sentiment <- inner_join(survey_df_tidy, afinn_sentiment)
-q1_afinn_sentiment <- inner_join(q1_df_tidy, afinn_sentiment)
-q19_afinn_sentiment <- inner_join(q19_df_tidy, afinn_sentiment)
-q33_afinn_sentiment <- inner_join(q33_df_tidy, afinn_sentiment)
-q37_afinn_sentiment <- inner_join(q37_df_tidy, afinn_sentiment)
-q38_afinn_sentiment <- inner_join(q38_df_tidy, afinn_sentiment)
-q39_afinn_sentiment <- inner_join(q39_df_tidy, afinn_sentiment)
-q40_afinn_sentiment <- inner_join(q40_df_tidy, afinn_sentiment)
-q42_afinn_sentiment <- inner_join(q42_df_tidy, afinn_sentiment)
+agg_survey_afinn_sent <- survey_df_tidy %>%
+                           inner_join(afinn_sentiment) %>%
+                             subset(select = -word) %>%
+                               group_by(Subject) %>%
+                                 summarise(mean = mean(value)) %>%
+                                   mutate(pos = mean >= 0)
+agg_q1_afinn_sent <- q1_df_tidy %>%
+                       inner_join(afinn_sentiment) %>%
+                         subset(select = -word) %>%
+                           group_by(Subject) %>%
+                             summarise(mean = mean(value)) %>%
+                               mutate(pos = mean >= 0)
+agg_q2_afinn_sent <- q2_df_tidy %>%
+                       inner_join(afinn_sentiment) %>%
+                         subset(select = -word) %>%
+                           group_by(Subject) %>%
+                             summarise(mean = mean(value)) %>%
+                               mutate(pos = mean >= 0)
+agg_q3_afinn_sent <- q3_df_tidy %>%
+                       inner_join(afinn_sentiment) %>%
+                         subset(select = -word) %>%
+                           group_by(Subject) %>%
+                             summarise(mean = mean(value)) %>%
+                               mutate(pos = mean >= 0)                         
+agg_q4_afinn_sent <- q4_df_tidy %>%
+                       inner_join(afinn_sentiment) %>%
+                         subset(select = -word) %>%
+                           group_by(Subject) %>%
+                             summarise(mean = mean(value)) %>%
+                               mutate(pos = mean >= 0)   
+agg_q5_afinn_sent <- q5_df_tidy %>%
+                       inner_join(afinn_sentiment) %>%
+                         subset(select = -word) %>%
+                           group_by(Subject) %>%
+                             summarise(mean = mean(value)) %>%
+                               mutate(pos = mean >= 0)  
+agg_q6_afinn_sent <- q6_df_tidy %>%
+                       inner_join(afinn_sentiment) %>%
+                         subset(select = -word) %>%
+                           group_by(Subject) %>%
+                             summarise(mean = mean(value)) %>%
+                               mutate(pos = mean >= 0) 
+agg_q7_afinn_sent <- q7_df_tidy %>%
+                       inner_join(afinn_sentiment) %>%
+                         subset(select = -word) %>%
+                           group_by(Subject) %>%
+                             summarise(mean = mean(value)) %>%
+                               mutate(pos = mean >= 0) 
 
-survey_bing_sentiment <- inner_join(survey_df_tidy, bing_sentiment)
-q1_bing_sentiment <- inner_join(q1_df_tidy, bing_sentiment)
-q19_bing_sentiment <- inner_join(q19_df_tidy, bing_sentiment)
-q33_bing_sentiment <- inner_join(q33_df_tidy, bing_sentiment)
-q37_bing_sentiment <- inner_join(q37_df_tidy, bing_sentiment)
-q38_bing_sentiment <- inner_join(q38_df_tidy, bing_sentiment)
-q39_bing_sentiment <- inner_join(q39_df_tidy, bing_sentiment)
-q40_bing_sentiment <- inner_join(q40_df_tidy, bing_sentiment)
-q42_bing_sentiment <- inner_join(q42_df_tidy, bing_sentiment)
-
-
-agg_survey_afinn_sent <- subset(survey_afinn_sentiment, select = -word)
-agg_q1_afinn_sent <- subset(q1_afinn_sentiment, select = -word)
-agg_q19_afinn_sent <- subset(q19_afinn_sentiment, select = -word)
-agg_q33_afinn_sent <- subset(q33_afinn_sentiment, select = -word)
-agg_q37_afinn_sent <- subset(q37_afinn_sentiment, select = -word)
-agg_q38_afinn_sent <- subset(q38_afinn_sentiment, select = -word)
-agg_q39_afinn_sent <- subset(q39_afinn_sentiment, select = -word)
-agg_q40_afinn_sent <- subset(q40_afinn_sentiment, select = -word)
-agg_q42_afinn_sent <- subset(q42_afinn_sentiment, select = -word)
-
-agg_survey_afinn_sent <- agg_survey_afinn_sent %>%
-                              group_by(Subject) %>%
-                                  summarise(mean = mean(value))
-agg_q1_afinn_sent <- agg_q1_afinn_sent %>%
-                          group_by(Subject) %>%
-                              summarise(mean = mean(value))
-agg_q19_afinn_sent <- agg_q19_afinn_sent %>%
-                          group_by(Subject) %>%
-                              summarise(mean = mean(value))
-agg_q33_afinn_sent <- agg_q33_afinn_sent %>%
-                          group_by(Subject) %>%
-                              summarise(mean = mean(value))
-agg_q37_afinn_sent <- agg_q37_afinn_sent %>%
-                          group_by(Subject) %>%
-                              summarise(mean = mean(value))
-agg_q38_afinn_sent <- agg_q38_afinn_sent %>%
-                          group_by(Subject) %>%
-                              summarise(mean = mean(value))
-agg_q39_afinn_sent <- agg_q39_afinn_sent %>%
-                          group_by(Subject) %>%
-                              summarise(mean = mean(value))
-agg_q40_afinn_sent <- agg_q40_afinn_sent %>%
-                          group_by(Subject) %>%
-                              summarise(mean = mean(value))
-agg_q42_afinn_sent <- agg_q42_afinn_sent %>%
-                          group_by(Subject) %>%
-                              summarise(mean = mean(value))
-
-agg_survey_afinn_sent <- agg_survey_afinn_sent %>%
-                            mutate(pos = mean >= 0)
-agg_q1_afinn_sent <- agg_q1_afinn_sent %>%
-                          mutate(pos = mean >= 0)
-agg_q19_afinn_sent <- agg_q19_afinn_sent %>%
-                          mutate(pos = mean >= 0)
-agg_q33_afinn_sent <- agg_q33_afinn_sent %>%
-                          mutate(pos = mean >= 0)
-agg_q37_afinn_sent <- agg_q37_afinn_sent %>%
-                          mutate(pos = mean >= 0)
-agg_q38_afinn_sent <- agg_q38_afinn_sent %>%
-                          mutate(pos = mean >= 0)
-agg_q39_afinn_sent <- agg_q39_afinn_sent %>%
-                          mutate(pos = mean >= 0)
-agg_q40_afinn_sent <- agg_q40_afinn_sent %>%
-                          mutate(pos = mean >= 0)
-agg_q42_afinn_sent <- agg_q42_afinn_sent %>%
-                          mutate(pos = mean >= 0)
+survey_bing_sent <- inner_join(survey_df_tidy, bing_sentiment)
+q1_bing_sent <- inner_join(q1_df_tidy, bing_sentiment)
+q19_bing_sent <- inner_join(q19_df_tidy, bing_sentiment)
+q33_bing_sent <- inner_join(q33_df_tidy, bing_sentiment)
+q37_bing_sent <- inner_join(q37_df_tidy, bing_sentiment)
+q38_bing_sent <- inner_join(q38_df_tidy, bing_sentiment)
+q39_bing_sent <- inner_join(q39_df_tidy, bing_sentiment)
+q40_bing_sent <- inner_join(q40_df_tidy, bing_sentiment)
+q42_bing_sent <- inner_join(q42_df_tidy, bing_sentiment)
 
 
 ## create nrc emolex data
-nrc_survey_data <- get_nrc_sentiment(survey_answers_char)
-nrc_survey_data_df <- gather(nrc_survey_data, columnNames, values)
-nrc_survey_data_df <- subset(nrc_survey_data_df, columnNames!="positive" & columnNames!="negative")
+survey_nrc_df <- survey_char %>%
+                    get_nrc_sentiment() %>%
+                      gather(columnNames, values) %>%
+                        subset(columnNames!="positive" & columnNames!="negative")
+q1_nrc_df <- q1_char %>%
+                get_nrc_sentiment() %>%
+                  gather(columnNames, values) %>%
+                    subset(columnNames!="positive" & columnNames!="negative")
+q2_nrc_df <- q2_char %>%
+                get_nrc_sentiment() %>%
+                  gather(columnNames, values) %>%
+                    subset(columnNames!="positive" & columnNames!="negative")
+q3_nrc_df <- q3_char %>%
+                get_nrc_sentiment() %>%
+                  gather(columnNames, values) %>%
+                    subset(columnNames!="positive" & columnNames!="negative")
+q4_nrc_df <- q4_char %>%
+                get_nrc_sentiment() %>%
+                  gather(columnNames, values) %>%
+                    subset(columnNames!="positive" & columnNames!="negative")
+q5_nrc_df <- q5_char %>%
+                get_nrc_sentiment() %>%
+                  gather(columnNames, values) %>%
+                    subset(columnNames!="positive" & columnNames!="negative")
+q6_nrc_df <- q6_char %>%
+                get_nrc_sentiment() %>%
+                  gather(columnNames, values) %>%
+                    subset(columnNames!="positive" & columnNames!="negative")
+q7_nrc_df <- q7_char %>%
+                get_nrc_sentiment() %>%
+                  gather(columnNames, values) %>%
+                    subset(columnNames!="positive" & columnNames!="negative")
 
-nrc_q38_data <- get_nrc_sentiment(q38_answers_char)
-nrc_q38_data_df <- gather(nrc_q38_data, columnNames, values)
-nrc_q38_data_df <- subset(nrc_q38_data_df, columnNames!="positive" & columnNames!="negative")
+
 
 
 #### Overall Survey Viz ####
@@ -167,25 +174,25 @@ ggplot(agg_survey_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = p
 
 
 ## visualize most commonly used pos and neg words
-survey_word_counts <- survey_bing_sentiment %>%
-                          count(word, sentiment, sort = TRUE) %>%
-                              ungroup()
+survey_word_counts <- survey_bing_sent %>%
+                        count(word, sentiment, sort = TRUE) %>%
+                          ungroup()
 survey_word_counts %>%
   group_by(sentiment) %>%
-      slice_max(n, n = 10) %>%
-          ungroup() %>%
-              mutate(word = reorder(word, n)) %>%
-                  ggplot(aes(n, word, fill = sentiment)) +
-                  geom_col(show.legend = FALSE) +
-                  facet_wrap(~sentiment, scales = "free_y") +
-                  scale_x_continuous("Occurrences", limits = c(0, 60), breaks = c(0, 10, 20, 30, 40, 50, 60)) +
-                  labs(title = "Most Commonly Used Positive and Negative Words",
-                       y = "Word") +
-                  theme(panel.grid.major.y = element_blank())
+    slice_max(n, n = 10) %>%
+      ungroup() %>%
+        mutate(word = reorder(word, n)) %>%
+          ggplot(aes(n, word, fill = sentiment)) +
+          geom_col(show.legend = FALSE) +
+          facet_wrap(~sentiment, scales = "free_y") +
+          scale_x_continuous("Occurrences", limits = c(0, 60), breaks = c(0, 10, 20, 30, 40, 50, 60)) +
+          labs(title = "Most Commonly Used Positive and Negative Words",
+               y = "Word") +
+          theme(panel.grid.major.y = element_blank())
 
 
 ## visualize nrc emotion categorization
-ggplot(nrc_survey_data_df, aes(x = columnNames, y = values, fill = columnNames)) +
+ggplot(survey_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
   geom_col(show.legend = FALSE) +
   labs(title = "Emotion Classification of Survey Responses",
        x = "Emotions",
@@ -193,9 +200,11 @@ ggplot(nrc_survey_data_df, aes(x = columnNames, y = values, fill = columnNames))
   theme(panel.grid.major.x = element_blank())
 
 
-#### Question 38 Viz ####
+
+
+#### Question 1 Viz ####
 ## visualize sentiment across subject
-ggplot(agg_q38_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)) +
+ggplot(agg_q1_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)) +
   geom_col(show.legend = FALSE) +
   labs(title = "Sentiment of Survey Responses",
        subtitle = "Question 38: question",
@@ -208,26 +217,25 @@ ggplot(agg_q38_afinn_sent, aes(x = reorder(Subject, mean), y = mean, fill = pos)
 
 
 ## visualize most common pos and neg words
-q38_word_counts <- q38_bing_sentiment %>%
-                      count(word, sentiment, sort = TRUE) %>%
-                          ungroup()
-q38_word_counts %>%
-  group_by(sentiment) %>%
-      slice_max(n, n = 10) %>%
+q1_bing_sentiment %>%
+  count(word, sentiment, sort = TRUE) %>%
+    ungroup() %>%
+      group_by(sentiment) %>%
+        slice_max(n, n = 10) %>%
           ungroup() %>%
-              mutate(word = reorder(word, n)) %>%
-                  ggplot(aes(n, word, fill = sentiment)) +
-                  geom_col(show.legend = FALSE) +
-                  facet_wrap(~sentiment, scales = "free_y") +
-                  scale_x_continuous("Occurrences", limits = c(0, 10), breaks = c(0, 2, 4, 6, 8, 10)) +
-                  labs(title = "Most Commonly Used Positive and Negative Words",
-                       subtitle = "Question 38: question",
-                       y = "Word") +
-                  theme(panel.grid.major.y = element_blank())
+            mutate(word = reorder(word, n)) %>%
+              ggplot(aes(n, word, fill = sentiment)) +
+              geom_col(show.legend = FALSE) +
+              facet_wrap(~sentiment, scales = "free_y") +
+              scale_x_continuous("Occurrences", limits = c(0, 10), breaks = c(0, 2, 4, 6, 8, 10)) +
+              labs(title = "Most Commonly Used Positive and Negative Words",
+                   subtitle = "Question 38: question",
+                   y = "Word") +
+              theme(panel.grid.major.y = element_blank())
 
 
 ## visualize nrc emotion categorization
-ggplot(nrc_q38_data_df, aes(x = columnNames, y = values, fill = columnNames)) +
+ggplot(q1_nrc_df, aes(x = columnNames, y = values, fill = columnNames)) +
   geom_col(show.legend = FALSE) +
   labs(title = "Emotion Classification of Survey Responses",
        subtitle = "Question 38: question",
